@@ -4,14 +4,11 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/AJC232/infinitystream/infinitystream_backend/config"
+	"github.com/AJC232/InfinityStream-backend/config"
 	"github.com/gorilla/mux"
 )
 
 func main() {
-
-	config.InitializeDB()
-
 	r := mux.NewRouter()
 
 	r.HandleFunc("/register", RegisterUser).Methods("POST")

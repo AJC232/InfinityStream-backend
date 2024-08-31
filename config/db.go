@@ -5,7 +5,8 @@ import (
 	"log"
 	"os"
 
-	userModels "github.com/AJC232/infinitystream/infinitystream_backend/user-service/models"
+	userModels "github.com/AJC232/InfinityStream-backend/user-service/models"
+	videoModels "github.com/AJC232/InfinityStream-backend/video-service/models"
 
 	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
@@ -52,6 +53,7 @@ func migrate() {
 	// List all your models here
 	err := DB.AutoMigrate(
 		&userModels.User{},
+		&videoModels.Video{},
 	// &OtherModel{}, // Add more models if needed
 	)
 	if err != nil {

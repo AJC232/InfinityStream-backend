@@ -7,15 +7,19 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/AJC232/infinitystream/infinitystream_backend/config"
-	"github.com/AJC232/infinitystream/infinitystream_backend/user-service/models"
-	"github.com/AJC232/infinitystream/infinitystream_backend/utils"
-	"github.com/gorilla/mux"
+	"github.com/AJC232/InfinityStream-backend/config"
+	"github.com/AJC232/InfinityStream-backend/user-service/models"
+	"github.com/AJC232/InfinityStream-backend/utils"
 
 	"github.com/google/uuid"
+	"github.com/gorilla/mux"
 	_ "github.com/lib/pq"
 	"golang.org/x/crypto/bcrypt"
 )
+
+func init() {
+	config.InitializeDB()
+}
 
 // RegisterUser handles user registration
 func RegisterUser(w http.ResponseWriter, r *http.Request) {

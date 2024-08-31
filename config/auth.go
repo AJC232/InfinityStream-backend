@@ -5,7 +5,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/AJC232/infinitystream/infinitystream_backend/utils"
+	"github.com/AJC232/Infinitystream_backend/utils"
+
 	"github.com/dgrijalva/jwt-go"
 	"github.com/google/uuid"
 )

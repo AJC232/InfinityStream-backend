@@ -3,7 +3,8 @@ package main
 import (
 	"net/http"
 
-	"github.com/AJC232/infinitystream/infinitystream_backend/utils"
+	"github.com/AJC232/InfinityStream-backend/utils"
+
 	"github.com/gorilla/mux"
 )
 

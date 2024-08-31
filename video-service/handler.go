@@ -8,15 +8,16 @@ import (
 	"os"
 	"time"
 
-	"github.com/AJC232/infinitystream/infinitystream_backend/config"
-	"github.com/AJC232/infinitystream/infinitystream_backend/utils"
-	"github.com/AJC232/infinitystream/infinitystream_backend/video-service/models"
+	"github.com/AJC232/InfinityStream-backend/config"
+	"github.com/AJC232/InfinityStream-backend/utils"
+	"github.com/AJC232/InfinityStream-backend/video-service/models"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/google/uuid"
+	"github.com/joho/godotenv"
 	"gorm.io/gorm"
 )
 
