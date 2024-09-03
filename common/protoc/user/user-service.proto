@@ -2,6 +2,12 @@ syntax="proto3";
 
 option go_package = "./";
 
+service UserService {
+    rpc RegisterUser(UserRegisterRequest) returns (UserRegisterResponse);
+    rpc LoginUser(UserLoginRequest) returns (UserLoginResponse);
+    rpc GetUser(GetUserRequest) returns (GetUserResponse);
+}
+
 message UserRegisterRequest {
     string username = 1;
     string password = 2;
@@ -32,10 +38,4 @@ message GetUserResponse {
     string id = 1;
     string username = 2;
     string email = 3;
-}
-
-service UserService {
-    rpc RegisterUser(UserRegisterRequest) returns (UserRegisterResponse);
-    rpc LoginUser(UserLoginRequest) returns (UserLoginResponse);
-    rpc GetUser(GetUserRequest) returns (GetUserResponse);
 }

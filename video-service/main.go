@@ -1,20 +1,28 @@
 package main
 
 import (
+	"fmt"
 	"log"
-	"net/http"
+	"net"
 
-	"github.com/gorilla/mux"
+	proto "github.com/AJC232/InfinityStream-backend/common/protoc/video"
+
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 )
 
 func main() {
-	r := mux.NewRouter()
+	listener, err := net.Listen("tcp", ":8081")
+	if err != nil {
+		log.Fatalf("failed to listen: %v", err)
+	}
 
-	r.HandleFunc("/upload", UploadVideo).Methods("POST")
-	r.HandleFunc("/stream/{videoId}", StreamVideo).Methods("GET")
-	// r.HandleFunc("/allVideos", GetAllVideos).Methods("GET")
-	// r.HandleFunc("/delete", DeleteVideo).Methods("DELETE")
+	srv := grpc.NewServer()
+	proto.RegisterVideoServiceServer(srv, &Video{})
+	reflection.Register(srv)
 
-	log.Println("Video Service running on :8082")
-	http.ListenAndServe(":8082", r)
+	fmt.Println("User Service running on :8081")
+	if err := srv.Serve(listener); err != nil {
+		log.Fatalf("Failed to serve: %v", err)
+	}
 }
