@@ -1,19 +1,15 @@
 package config
 
 import (
-	"context"
 	"net/http"
 	"time"
 
-	"github.com/AJC232/InfinityStream-backend/utils"
-
 	"github.com/dgrijalva/jwt-go"
+	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 )
 
-var (
-	jwtSecretKey = []byte("infinitystream_secret_key")
-)
+var jwtSecretKey = []byte("infinitystream_secret_key")
 
 // Claims defines the structure of the JWT claims
 type Claims struct {
@@ -50,12 +46,13 @@ func GenerateToken(ID uuid.UUID, username string) (string, error) {
 }
 
 // AuthMiddleware is a middleware to authenticate requests
-func AuthMiddleware(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+func AuthMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
 		// Get the token from the request header
-		tokenString := r.Header.Get("Authorization")
+		tokenString := c.GetHeader("Authorization")
 		if tokenString == "" {
-			utils.JSONError(w, http.StatusUnauthorized, "Unauthorized")
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
+			c.Abort()
 			return
 		}
 
@@ -65,31 +62,32 @@ func AuthMiddleware(next http.Handler) http.Handler {
 			return jwtSecretKey, nil
 		})
 		if err != nil {
-			utils.JSONError(w, http.StatusUnauthorized, "Unauthorized")
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
+			c.Abort()
 			return
 		}
 
 		// Check if the token is valid
 		if !token.Valid {
-			utils.JSONError(w, http.StatusUnauthorized, "Unauthorized")
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
+			c.Abort()
 			return
 		}
 
-		// Set the user ID in the request context
-		type contextKey string
-		const userIDKey contextKey = "userID"
+		// Set the user ID in the Gin context
+		c.Set("userID", claims.ID)
 
-		ctx := context.WithValue(r.Context(), userIDKey, claims.ID)
-		r = r.WithContext(ctx)
-
-		next.ServeHTTP(w, r)
-	})
+		// Continue to the next handler
+		c.Next()
+	}
 }
 
 // GetUserInfo gets logged in user info
-func GetUserInfo(r *http.Request) uuid.UUID {
-	type contextKey string
-	const userIDKey contextKey = "userID"
-	userID := r.Context().Value(userIDKey).(uuid.UUID)
-	return userID
+func GetUserInfo(c *gin.Context) uuid.UUID {
+	userID, exists := c.Get("userID")
+	if !exists {
+		// Handle the case where the userID doesn't exist in the context
+		return uuid.Nil
+	}
+	return userID.(uuid.UUID)
 }

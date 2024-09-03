@@ -24,7 +24,18 @@ message UserLoginResponse {
     string token = 3;
 }
 
+message GetUserRequest {
+    string id = 1;
+}
+
+message GetUserResponse {
+    string id = 1;
+    string username = 2;
+    string email = 3;
+}
+
 service UserService {
     rpc RegisterUser(UserRegisterRequest) returns (UserRegisterResponse);
     rpc LoginUser(UserLoginRequest) returns (UserLoginResponse);
+    rpc GetUser(GetUserRequest) returns (GetUserResponse);
 }

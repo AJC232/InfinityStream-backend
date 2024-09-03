@@ -1,24 +1,28 @@
 package main
 
 import (
+	"fmt"
 	"log"
-	"net/http"
+	"net"
 
-	"github.com/AJC232/InfinityStream-backend/config"
-	"github.com/gorilla/mux"
+	proto "github.com/AJC232/InfinityStream-backend/common/protoc/user"
+
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 )
 
 func main() {
-	r := mux.NewRouter()
+	listener, err := net.Listen("tcp", ":8081")
+	if err != nil {
+		log.Fatalf("failed to listen: %v", err)
+	}
 
-	r.HandleFunc("/register", RegisterUser).Methods("POST")
-	r.HandleFunc("/login", LoginUser).Methods("POST")
+	srv := grpc.NewServer()
+	proto.RegisterUserServiceServer(srv, &User{})
+	reflection.Register(srv)
 
-	authRouter := r.PathPrefix("/").Subrouter()
-	authRouter.Use(config.AuthMiddleware)
-	authRouter.HandleFunc("/allusers", GetAllUsers).Methods("GET")
-	authRouter.HandleFunc("/user/{id}", GetUser).Methods("GET")
-
-	log.Println("User Service running on :8081")
-	http.ListenAndServe(":8081", r)
+	fmt.Println("User Service running on :8081")
+	if err := srv.Serve(listener); err != nil {
+		log.Fatalf("Failed to serve: %v", err)
+	}
 }

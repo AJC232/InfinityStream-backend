@@ -2,30 +2,41 @@ package main
 
 import (
 	"log"
-	"net/http"
 
-	"github.com/gorilla/handlers"
-	"github.com/gorilla/mux"
+	"github.com/AJC232/InfinityStream-backend/api-gateway/user"
+
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
 )
 
+func init() {
+	user.InitializeGrpcClient("localhost", ":8081")
+	// video.InitializeGrpcClient("localhost", ":8082")
+}
+
 func main() {
-	r := mux.NewRouter()
+	r := gin.Default()
+
+	// Configure CORS settings
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://example.com", "http://localhost:3000"}, // Allow specific origins
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},     // Allow specific methods
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},     // Allow specific headers
+		ExposeHeaders:    []string{"Content-Length"},                              // Expose specific headers
+		AllowCredentials: true,                                                    // Allow credentials (cookies, etc.)
+	}))
 
 	// Health check endpoint
-	r.HandleFunc("/api/healthz", Healthz).Methods("GET")
+	r.GET("/api/healthz", Healthz)
 
 	// Route to User Service
-	r.HandleFunc("/api/users/{path:.*}", HandleUserService)
+	r.POST("/api/users/register", user.RegisterUser)
+	r.POST("/api/users/login", user.LoginUser)
+	r.GET("/api/users/user/:userId", user.GetUser)
 
 	// Route to Video Service
-	r.HandleFunc("/api/videos/{path:.*}", HandleVideoService)
-
-	// Define allowed CORS options
-	corsOptions := handlers.AllowedOrigins([]string{"http://localhost:3000"})
-	allowedMethods := handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"})
-	allowedHeaders := handlers.AllowedHeaders([]string{"Content-Type", "Authorization"})
-	allowCredentials := handlers.AllowCredentials()
+	// r.HandleFunc("/api/videos/{path:.*}", HandleVideoService)
 
 	log.Println("API Gateway running on :8080")
-	http.ListenAndServe(":8080", handlers.CORS(corsOptions, allowedMethods, allowedHeaders, allowCredentials)(r))
+	r.Run(":8080")
 }
