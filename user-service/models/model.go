@@ -16,9 +16,14 @@ type User struct {
 	UpdatedAt time.Time
 }
 
+type UserRequest struct {
+	Username string `json:"username" validate:"required"`
+	Password string `json:"password" validate:"required"`
+	Email    string `json:"email" validate:"required,email"`
+}
+
 // UserResponse represents a user response
 type UserResponse struct {
-	ID       uuid.UUID `json:"id"`
-	Username string    `json:"username"`
-	Email    string    `json:"email"`
+	ID      uuid.UUID `json:"id"`
+	Message string    `json:"message"`
 }
