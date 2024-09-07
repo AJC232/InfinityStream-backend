@@ -24,6 +24,10 @@ services:
     depends_on:
       - user-service
       - video-service
+    volumes:
+      - ./utils:/app/utils
+      - ./common:/app/common
+      - ./config:/app/config
 
   user-service:
     build: ./user-service
@@ -35,6 +39,10 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
     depends_on:
       - postgres
+    volumes:
+      - ./utils:/app/utils
+      - ./common:/app/common
+      - ./config:/app/config
 
   video-service:
     build: ./video-service
@@ -47,13 +55,12 @@ services:
     depends_on:
       - postgres
       - s3
+    volumes:
+      - ./utils:/app/utils
+      - ./common:/app/common
+      - ./config:/app/config
 
-  # streaming-service:
-  #   build: ./streaming-service
-  #   ports:
-  #     - "8083:8083"
-
-  # redis:
-  #   image: redis:alpine
-  #   ports:
-  #     - "6379:6379"
+# Optional volume definitions (if you need to persist the data or reuse them across containers)
+# volumes:
+#   postgres_data:
+#   s3_data:

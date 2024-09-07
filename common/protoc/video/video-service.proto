@@ -4,22 +4,30 @@ option go_package = "./";
 
 service VideoService {
   rpc UploadVideo (UploadVideoRequest) returns (UploadVideoResponse);
+  rpc UploadCallback (UploadCallbackRequest) returns (UploadCallbackResponse);
   rpc GetVideoMetadata (GetVideoMetadataRequest) returns (GetVideoMetadataResponse);
-  rpc StreamVideo (StreamVideoRequest) returns (StreamVideoResponse);
   rpc ListVideos (ListVideosRequest) returns (ListVideosResponse);
 }
 
 message UploadVideoRequest {
   string title = 1;
   string description = 2;
-  string file_path = 3; // URL or path to the video file on S3
-  string category = 4;
-  bool is_premium = 5;
+  string category = 5;
+  bool is_premium = 6;
 }
 
 message UploadVideoResponse {
   string video_id = 1;
-  string upload_url = 2; // URL to upload the video file to
+  string video_signed_url = 2;
+  string cover_photo_url = 3;
+}
+
+message UploadCallbackRequest {
+  string video_id = 1;    // ID of the video
+}
+
+message UploadCallbackResponse {
+  string message = 1;   
 }
 
 message GetVideoMetadataRequest {
@@ -27,21 +35,14 @@ message GetVideoMetadataRequest {
 }
 
 message GetVideoMetadataResponse {
-  string video_id = 1;
+  string id = 1;
   string title = 2;
   string description = 3;
-  string file_path = 4; // URL or path to the video file on S3
-  string upload_date = 5;
-  string category = 6;
-  bool is_premium = 7;
-}
-
-message StreamVideoRequest {
-  string video_id = 1;
-}
-
-message StreamVideoResponse {
-  string video_url = 1; // URL to stream the video
+  string video_url = 4; 
+  string cover_photo_url = 5;
+  string type = 6;
+  string category = 7;
+  bool is_premium = 8;
 }
 
 message ListVideosRequest {
@@ -50,15 +51,5 @@ message ListVideosRequest {
 }
 
 message ListVideosResponse {
-  repeated VideoMetadata videos = 1;
-}
-
-message VideoMetadata {
-  string video_id = 1;
-  string title = 2;
-  string description = 3;
-  string file_path = 4; // URL or path to the video file on S3
-  string upload_date = 5;
-  string category = 6;
-  bool is_premium = 7;
+  repeated GetVideoMetadataResponse videos = 1;
 }

@@ -20,8 +20,8 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	VideoService_UploadVideo_FullMethodName      = "/VideoService/UploadVideo"
+	VideoService_UploadCallback_FullMethodName   = "/VideoService/UploadCallback"
 	VideoService_GetVideoMetadata_FullMethodName = "/VideoService/GetVideoMetadata"
-	VideoService_StreamVideo_FullMethodName      = "/VideoService/StreamVideo"
 	VideoService_ListVideos_FullMethodName       = "/VideoService/ListVideos"
 )
 
@@ -30,8 +30,8 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type VideoServiceClient interface {
 	UploadVideo(ctx context.Context, in *UploadVideoRequest, opts ...grpc.CallOption) (*UploadVideoResponse, error)
+	UploadCallback(ctx context.Context, in *UploadCallbackRequest, opts ...grpc.CallOption) (*UploadCallbackResponse, error)
 	GetVideoMetadata(ctx context.Context, in *GetVideoMetadataRequest, opts ...grpc.CallOption) (*GetVideoMetadataResponse, error)
-	StreamVideo(ctx context.Context, in *StreamVideoRequest, opts ...grpc.CallOption) (*StreamVideoResponse, error)
 	ListVideos(ctx context.Context, in *ListVideosRequest, opts ...grpc.CallOption) (*ListVideosResponse, error)
 }
 
@@ -53,20 +53,20 @@ func (c *videoServiceClient) UploadVideo(ctx context.Context, in *UploadVideoReq
 	return out, nil
 }
 
-func (c *videoServiceClient) GetVideoMetadata(ctx context.Context, in *GetVideoMetadataRequest, opts ...grpc.CallOption) (*GetVideoMetadataResponse, error) {
+func (c *videoServiceClient) UploadCallback(ctx context.Context, in *UploadCallbackRequest, opts ...grpc.CallOption) (*UploadCallbackResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetVideoMetadataResponse)
-	err := c.cc.Invoke(ctx, VideoService_GetVideoMetadata_FullMethodName, in, out, cOpts...)
+	out := new(UploadCallbackResponse)
+	err := c.cc.Invoke(ctx, VideoService_UploadCallback_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *videoServiceClient) StreamVideo(ctx context.Context, in *StreamVideoRequest, opts ...grpc.CallOption) (*StreamVideoResponse, error) {
+func (c *videoServiceClient) GetVideoMetadata(ctx context.Context, in *GetVideoMetadataRequest, opts ...grpc.CallOption) (*GetVideoMetadataResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(StreamVideoResponse)
-	err := c.cc.Invoke(ctx, VideoService_StreamVideo_FullMethodName, in, out, cOpts...)
+	out := new(GetVideoMetadataResponse)
+	err := c.cc.Invoke(ctx, VideoService_GetVideoMetadata_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -88,8 +88,8 @@ func (c *videoServiceClient) ListVideos(ctx context.Context, in *ListVideosReque
 // for forward compatibility.
 type VideoServiceServer interface {
 	UploadVideo(context.Context, *UploadVideoRequest) (*UploadVideoResponse, error)
+	UploadCallback(context.Context, *UploadCallbackRequest) (*UploadCallbackResponse, error)
 	GetVideoMetadata(context.Context, *GetVideoMetadataRequest) (*GetVideoMetadataResponse, error)
-	StreamVideo(context.Context, *StreamVideoRequest) (*StreamVideoResponse, error)
 	ListVideos(context.Context, *ListVideosRequest) (*ListVideosResponse, error)
 	mustEmbedUnimplementedVideoServiceServer()
 }
@@ -104,11 +104,11 @@ type UnimplementedVideoServiceServer struct{}
 func (UnimplementedVideoServiceServer) UploadVideo(context.Context, *UploadVideoRequest) (*UploadVideoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UploadVideo not implemented")
 }
+func (UnimplementedVideoServiceServer) UploadCallback(context.Context, *UploadCallbackRequest) (*UploadCallbackResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UploadCallback not implemented")
+}
 func (UnimplementedVideoServiceServer) GetVideoMetadata(context.Context, *GetVideoMetadataRequest) (*GetVideoMetadataResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetVideoMetadata not implemented")
-}
-func (UnimplementedVideoServiceServer) StreamVideo(context.Context, *StreamVideoRequest) (*StreamVideoResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method StreamVideo not implemented")
 }
 func (UnimplementedVideoServiceServer) ListVideos(context.Context, *ListVideosRequest) (*ListVideosResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListVideos not implemented")
@@ -152,6 +152,24 @@ func _VideoService_UploadVideo_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _VideoService_UploadCallback_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UploadCallbackRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(VideoServiceServer).UploadCallback(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: VideoService_UploadCallback_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(VideoServiceServer).UploadCallback(ctx, req.(*UploadCallbackRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _VideoService_GetVideoMetadata_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetVideoMetadataRequest)
 	if err := dec(in); err != nil {
@@ -166,24 +184,6 @@ func _VideoService_GetVideoMetadata_Handler(srv interface{}, ctx context.Context
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(VideoServiceServer).GetVideoMetadata(ctx, req.(*GetVideoMetadataRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _VideoService_StreamVideo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(StreamVideoRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(VideoServiceServer).StreamVideo(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: VideoService_StreamVideo_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(VideoServiceServer).StreamVideo(ctx, req.(*StreamVideoRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -218,12 +218,12 @@ var VideoService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _VideoService_UploadVideo_Handler,
 		},
 		{
-			MethodName: "GetVideoMetadata",
-			Handler:    _VideoService_GetVideoMetadata_Handler,
+			MethodName: "UploadCallback",
+			Handler:    _VideoService_UploadCallback_Handler,
 		},
 		{
-			MethodName: "StreamVideo",
-			Handler:    _VideoService_StreamVideo_Handler,
+			MethodName: "GetVideoMetadata",
+			Handler:    _VideoService_GetVideoMetadata_Handler,
 		},
 		{
 			MethodName: "ListVideos",

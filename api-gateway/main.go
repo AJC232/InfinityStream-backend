@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/AJC232/InfinityStream-backend/api-gateway/user"
+	"github.com/AJC232/InfinityStream-backend/api-gateway/video"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -11,7 +12,7 @@ import (
 
 func init() {
 	user.InitializeGrpcClient("localhost", ":8081")
-	// video.InitializeGrpcClient("localhost", ":8082")
+	video.InitializeGrpcClient("localhost", ":8082")
 }
 
 func main() {
@@ -35,7 +36,10 @@ func main() {
 	r.GET("/api/users/user/:userId", user.GetUser)
 
 	// Route to Video Service
-	// r.HandleFunc("/api/videos/{path:.*}", HandleVideoService)
+	r.POST("/api/videos/upload", video.UploadVideo)
+	r.POST("/api/videos/upload/callback", video.UploadVideoCallback)
+	r.GET("/api/videos/video/:videoId", video.GetVideoMetadata)
+	r.GET("/api/videos/list", video.ListVideos)
 
 	log.Println("API Gateway running on :8080")
 	r.Run(":8080")

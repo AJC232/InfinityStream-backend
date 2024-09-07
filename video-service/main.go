@@ -12,7 +12,7 @@ import (
 )
 
 func main() {
-	listener, err := net.Listen("tcp", ":8081")
+	listener, err := net.Listen("tcp", ":8082")
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
@@ -21,7 +21,7 @@ func main() {
 	proto.RegisterVideoServiceServer(srv, &Video{})
 	reflection.Register(srv)
 
-	fmt.Println("User Service running on :8081")
+	fmt.Println("Video Service running on :8082")
 	if err := srv.Serve(listener); err != nil {
 		log.Fatalf("Failed to serve: %v", err)
 	}
