@@ -6,7 +6,6 @@ import (
 
 	proto "github.com/AJC232/InfinityStream-backend/common/protoc"
 
-	"github.com/AJC232/InfinityStream-backend/utils"
 	"github.com/gin-gonic/gin"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -38,11 +37,11 @@ func RegisterUser(c *gin.Context) {
 
 	userResponse, err := userServiceClient.RegisterUser(c, &userRequest)
 	if err != nil {
-		utils.JSONError(c, http.StatusInternalServerError, err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	utils.JSONResponse(c, http.StatusOK, userResponse)
+	c.JSON(http.StatusOK, userResponse)
 }
 
 func LoginUser(c *gin.Context) {
@@ -59,11 +58,11 @@ func LoginUser(c *gin.Context) {
 
 	userResponse, err := userServiceClient.LoginUser(c, &userRequest)
 	if err != nil {
-		utils.JSONError(c, http.StatusInternalServerError, err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	utils.JSONResponse(c, http.StatusOK, userResponse)
+	c.JSON(http.StatusOK, userResponse)
 }
 
 func GetUser(c *gin.Context) {
@@ -75,9 +74,9 @@ func GetUser(c *gin.Context) {
 
 	userResponse, err := userServiceClient.GetUser(c, &userRequest)
 	if err != nil {
-		utils.JSONError(c, http.StatusInternalServerError, err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	utils.JSONResponse(c, http.StatusOK, userResponse)
+	c.JSON(http.StatusOK, userResponse)
 }

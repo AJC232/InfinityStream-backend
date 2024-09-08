@@ -1,7 +1,5 @@
 github.com/AJC232/InfinityStream-backend/common v0.0.0-20240908140231-245f30b355a1 h1:fKCgucRkpVElKUX+H4l6eIhx0XH+mkCHPkXYMJCYvrU=
 github.com/AJC232/InfinityStream-backend/common v0.0.0-20240908140231-245f30b355a1/go.mod h1:dH1nD99JUwI/WQPg1Pjj3H6fG9UOIiiAWgD1dD3kNvA=
-github.com/AJC232/InfinityStream-backend/utils v0.0.0-20240831215540-f68bf513b01c h1:VlMUqrwQSxussgLSGiV/y0Ft+Wp+gz7L14SUp6ekdpQ=
-github.com/AJC232/InfinityStream-backend/utils v0.0.0-20240831215540-f68bf513b01c/go.mod h1:Bar97rgTYEzsuyOzSsee9OWw+NfcNsIEn6LisPUVsU8=
 github.com/bytedance/sonic v1.12.2 h1:oaMFuRTpMHYLpCntGca65YWt5ny+wAceDERTkT2L9lg=
 github.com/bytedance/sonic v1.12.2/go.mod h1:B8Gt/XvtZ3Fqj+iSKMypzymZxw/FVwgIGKzMzT9r/rk=
 github.com/bytedance/sonic/loader v0.1.1/go.mod h1:ncP89zfokxS5LZrJxl5z0UJcsk4M4yY2JpfqGeCtNLU=
