@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	proto "github.com/AJC232/InfinityStream-backend/common/protoc/user"
+	proto "github.com/AJC232/InfinityStream-backend/common/protoc"
 
 	"github.com/AJC232/InfinityStream-backend/utils"
 	"github.com/gin-gonic/gin"

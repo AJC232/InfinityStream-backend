@@ -5,7 +5,7 @@ import (
 	"log"
 	"net"
 
-	proto "github.com/AJC232/InfinityStream-backend/common/protoc/user"
+	proto "github.com/AJC232/InfinityStream-backend/common/protoc"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"

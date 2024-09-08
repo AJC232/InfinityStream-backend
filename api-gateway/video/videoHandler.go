@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strconv"
 
-	proto "github.com/AJC232/InfinityStream-backend/common/protoc/video"
+	proto "github.com/AJC232/InfinityStream-backend/common/protoc"
 
 	"github.com/AJC232/InfinityStream-backend/utils"
 	"github.com/gin-gonic/gin"

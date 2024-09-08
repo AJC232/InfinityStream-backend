@@ -8,7 +8,7 @@ import (
 	"os"
 	"time"
 
-	proto "github.com/AJC232/InfinityStream-backend/common/protoc/video"
+	proto "github.com/AJC232/InfinityStream-backend/common/protoc"
 	"github.com/AJC232/InfinityStream-backend/config"
 	"github.com/AJC232/InfinityStream-backend/video-service/models"
 
