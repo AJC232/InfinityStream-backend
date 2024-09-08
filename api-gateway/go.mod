@@ -3,7 +3,7 @@ module github.com/AJC232/InfinityStream-backend/api-gateway
 go 1.23.0
 
 require (
-	github.com/AJC232/InfinityStream-backend/common v0.0.0-20240903175229-0797c8c50f89
+	github.com/AJC232/InfinityStream-backend/common v0.0.0-20240908140231-245f30b355a1
 	github.com/AJC232/InfinityStream-backend/utils v0.0.0-20240831215540-f68bf513b01c
 	github.com/gin-contrib/cors v1.7.2
 	github.com/gin-gonic/gin v1.10.0

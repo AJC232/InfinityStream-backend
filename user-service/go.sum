@@ -1,5 +1,5 @@
-github.com/AJC232/InfinityStream-backend/common v0.0.0-20240903175229-0797c8c50f89 h1:EFAzFCO+lSKEVcGXaAGkySvr/euo9dH/ht+PWL5gNqk=
-github.com/AJC232/InfinityStream-backend/common v0.0.0-20240903175229-0797c8c50f89/go.mod h1:dH1nD99JUwI/WQPg1Pjj3H6fG9UOIiiAWgD1dD3kNvA=
+github.com/AJC232/InfinityStream-backend/common v0.0.0-20240908140231-245f30b355a1 h1:fKCgucRkpVElKUX+H4l6eIhx0XH+mkCHPkXYMJCYvrU=
+github.com/AJC232/InfinityStream-backend/common v0.0.0-20240908140231-245f30b355a1/go.mod h1:dH1nD99JUwI/WQPg1Pjj3H6fG9UOIiiAWgD1dD3kNvA=
 github.com/AJC232/InfinityStream-backend/config v0.0.0-20240903175229-0797c8c50f89 h1:cM6cuiV1Y70z3Jdbr+2TPzwfq3lOI4UyNeu7DXsC6Ro=
 github.com/AJC232/InfinityStream-backend/config v0.0.0-20240903175229-0797c8c50f89/go.mod h1:4Gi3hyHZ+9VMv05lF7ldrWwXLD0qMUFvn6SDDWdGcSg=
 github.com/AJC232/InfinityStream-backend/video-service v0.0.0-20240831215540-f68bf513b01c h1:MuSYbDb+/C4KJvk7rZFg48BCg1Q06EZ++vCFbIKzD1U=

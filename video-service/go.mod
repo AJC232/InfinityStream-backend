@@ -3,7 +3,7 @@ module github.com/AJC232/InfinityStream-backend/video-service
 go 1.23.0
 
 require (
-	github.com/AJC232/InfinityStream-backend/common v0.0.0-20240903175229-0797c8c50f89
+	github.com/AJC232/InfinityStream-backend/common v0.0.0-20240908140231-245f30b355a1
 	github.com/AJC232/InfinityStream-backend/config v0.0.0-20240903075356-f7db0d3cc3b4
 	github.com/aws/aws-sdk-go v1.55.5
 	github.com/google/uuid v1.6.0
